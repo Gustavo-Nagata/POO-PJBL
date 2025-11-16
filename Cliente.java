@@ -1,12 +1,15 @@
 import java.util.ArrayList;
 
 public class Cliente extends Usuario {
+    // Atributo específico de Cliente: uma lista de Chamados que o cliente abriu
     private ArrayList<Chamado> listaChamados = new ArrayList<>();
 
+    // Construtor: Chama o construtor da classe pai (Usuario).
     public Cliente(int id, String nome, String email, String senha) {
         super(id, nome, email, senha);
     }
 
+    // Implementa o método abstrato 'exibirMenu()' de Usuario
     @Override
     public void exibirMenu() {
         System.out.println("=== MENU CLIENTE ===");
@@ -14,6 +17,7 @@ public class Cliente extends Usuario {
         System.out.println("2. Atualizar chamado");
     }
 
+    // Métodos específicos de Cliente
     public void criarChamado(String descricao) {
         Chamado chamado = new Chamado(descricao, this);
         listaChamados.add(chamado);
@@ -31,6 +35,7 @@ public class Cliente extends Usuario {
         System.out.println("Chamado não encontrado.");
     }
 
+    // Getter para a lista de chamados do cliente.
     public ArrayList<Chamado> getListaChamados() {
         return listaChamados;
     }

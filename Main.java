@@ -1,13 +1,16 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
-/**
- * Classe principal para demonstrar o funcionamento do sistema de POO.
- * * Simula a criação de usuários, gestão de chamados e tarefas
- * específicas de cada tipo de funcionário.
- */
+/* criação de usuários, gestão de chamados e tarefas 
+ * específicas de cada tipo de funcionário. */
+
 public class Main {
 
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
+
+
 
         // --- 1. Criação dos Usuários ---
         System.out.println("--- 1. Criando Usuários ---");
@@ -27,18 +30,14 @@ public class Main {
         System.out.println("- " + carlaCliente.getNome() + " (Cliente)");
         System.out.println();
 
-        // --- 2. Simulação de Login e Menus (Polimorfismo) ---
-        System.out.println("--- 2. Simulação de Login e Menus ---");
+
+
+        // --- 2. Login e Menus (Polimorfismo) ---
+        System.out.println("--- 2. Login e Menus ---");
         
         if (carlaCliente.login("carla@cliente.com", "senha789")) {
             System.out.println("Login de " + carlaCliente.getNome() + " bem-sucedido!");
             carlaCliente.exibirMenu(); // Menu específico do Cliente
-        }
-        System.out.println();
-
-        if (alanTuring.login("alan@ti.com", "senha123")) {
-            System.out.println("Login de " + alanTuring.getNome() + " bem-sucedido!");
-            alanTuring.exibirMenu(); // Menu específico do Funcionario
         }
         System.out.println();
 
@@ -51,7 +50,7 @@ public class Main {
         carlaCliente.criarChamado("Meu computador não liga");
         System.out.println();
 
-        // Recuperando o chamado criado (em um sistema real, isso viria de um banco de dados)
+        // Recuperando o chamado criado
         ArrayList<Chamado> chamadosDaCarla = carlaCliente.getListaChamados();
         if (!chamadosDaCarla.isEmpty()) {
             Chamado chamadoComputador = chamadosDaCarla.get(0); // Pega o primeiro chamado
@@ -65,10 +64,12 @@ public class Main {
             System.out.println("Status atual: " + chamadoComputador); // Mostra "Em atendimento"
 
             // Analista de TI (como Funcionario) atualiza o status final
-            alanTuring.atualizarChamado(chamadoComputador, "Resolvido");
+            alanTuring.atualizarStatusChamado(chamadoComputador, "Resolvido");
             System.out.println("Status final: " + chamadoComputador); // Mostra "Resolvido"
         }
         System.out.println();
+
+
 
         // --- 4. Fluxo de RH ---
         System.out.println("--- 4. Fluxo de RH ---");
@@ -82,8 +83,10 @@ public class Main {
         System.out.println("Salário novo do " + alanTuring.getNome() + ": R$" + alanTuring.salarioBase);
         System.out.println();
 
-        // --- 5. Demonstração de Métodos Abstratos (Polimorfismo) ---
-        System.out.println("--- 5. Demonstração de Polimorfismo (executarTarefa) ---");
+
+
+        // --- 5. Prints dos Métodos Abstratos ---
+        System.out.println("--- 5. Executar Tarefa ---");
         
         System.out.print(alanTuring.getNome() + " (AnalistaTI): ");
         alanTuring.executarTarefa(); // Tarefa de TI
@@ -92,10 +95,15 @@ public class Main {
         robertaHumanos.executarTarefa(); // Tarefa de RH
         System.out.println();
 
+
+
         // --- 6. Logout ---
         System.out.println("--- 6. Logout ---");
         carlaCliente.logout();
         alanTuring.logout();
         robertaHumanos.logout();
+
+        scanner.close();
     }
+
 }
