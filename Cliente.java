@@ -10,7 +10,7 @@ public class Cliente extends Usuario {
     }
 
     // Implementa o método abstrato 'exibirMenu()' de Usuario
-    @Override
+    
     public void exibirMenu() {
         System.out.println("=== MENU CLIENTE ===");
         System.out.println("1. Criar chamado");
