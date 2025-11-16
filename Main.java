@@ -1,109 +1,138 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-/* criação de usuários, gestão de chamados e tarefas 
- * específicas de cada tipo de funcionário. */
-
 public class Main {
-
-    private static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
+        List<Chamado> chamados = new ArrayList<>();
+        List<Cliente> clientes = new ArrayList<>();
+        List<AnalistaTI> analistaTIS = new ArrayList<>();
 
+        // exemplos iniciais simples
+        Cliente u1 = new Cliente("Gustavo", "222-222-222-22", "555555-55", "3232-3232", 32, 12983, 2000f);
+        Cliente u2 = new Cliente("Ana", "333-333-333-33", "666666-66", "3434-3434", 34, 12984, 2000f);
+        clientes.add(u1);
+        clientes.add(u2);
 
+        AnalistaTI a1 = new AnalistaTI("Jorge", "111-111-111-11", "444444-44", "3030-3030", 30, 23948, 3000f,  250f);
+        analistaTIS.add(a1);
 
-        // --- 1. Criação dos Usuários ---
-        System.out.println("--- 1. Criando Usuários ---");
+        Scanner sc = new Scanner(System.in);
+        int opc = -1;
 
-        // Criando um Analista de TI
-        AnalistaTI alanTuring = new AnalistaTI(1, "Alan Turing", "alan@ti.com", "senha123", 5000.00);
-        
-        // Criando um Analista de RH
-        AnalistaRH robertaHumanos = new AnalistaRH(2, "Roberta Humanos", "roberta@rh.com", "senha456", 4500.00);
-        
-        // Criando um Cliente
-        Cliente carlaCliente = new Cliente(3, "Carla Cliente", "carla@cliente.com", "senha789");
+        while (opc != 0) {
+            System.out.println("\n--- MENU ---");
+            System.out.println("1 - Listar usuarios");
+            System.out.println("2 - Listar analistaTIS");
+            System.out.println("3 - Usuario abre chamado");
+            System.out.println("4 - Listar chamados");
+            System.out.println("5 - Atribuir chamado a admin");
+            System.out.println("6 - Fechar chamado");
+            System.out.println("7 - Mostrar dados de admin");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha: ");
+            try {
+                opc = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                opc = -1;
+            }
 
-        System.out.println("Usuários criados:");
-        System.out.println("- " + alanTuring.getNome() + " (Departamento: " + alanTuring.departamento + ")");
-        System.out.println("- " + robertaHumanos.getNome() + " (Departamento: " + robertaHumanos.departamento + ")");
-        System.out.println("- " + carlaCliente.getNome() + " (Cliente)");
-        System.out.println();
-
-
-
-        // --- 2. Login e Menus (Polimorfismo) ---
-        System.out.println("--- 2. Login e Menus ---");
-        
-        if (carlaCliente.login("carla@cliente.com", "senha789")) {
-            System.out.println("Login de " + carlaCliente.getNome() + " bem-sucedido!");
-            carlaCliente.exibirMenu(); // Menu específico do Cliente
+            switch (opc) {
+                case 1:
+                    System.out.println("-- Usuários cadastrados --");
+                    for (int i = 0; i < clientes.size(); i++) {
+                        Cliente uu = clientes.get(i);
+                        System.out.println(i + " - " + uu.getNome() + " (Mat: " + uu.getMatricula() + ")");
+                    }
+                    break;
+                case 2:
+                    System.out.println("-- Admins cadastrados --");
+                    for (int i = 0; i < analistaTIS.size(); i++) {
+                        AnalistaTI aa = analistaTIS.get(i);
+                        System.out.println(i + " - " + aa.getNome() + " (Mat: " + aa.getMatricula() + ")");
+                    }
+                    break;
+                case 3:
+                    System.out.println("-- Abrir chamado --");
+                    System.out.print("Indice do usuário (ex: 0): ");
+                    int idxU = Integer.parseInt(sc.nextLine());
+                    if (idxU < 0 || idxU >= clientes.size()) {
+                        System.out.println("Usuário inválido.");
+                    } else {
+                        System.out.print("Descrição do chamado: ");
+                        String desc = sc.nextLine();
+                        clientes.get(idxU).abrirChamado(desc, chamados);
+                    }
+                    break;
+                case 4:
+                    System.out.println("-- Chamados --");
+                    if (chamados.isEmpty()) {
+                        System.out.println("Nenhum chamado.");
+                    } else {
+                        for (Chamado c : chamados) {
+                            c.mostrarResumo();
+                            System.out.println("-------------------");
+                        }
+                    }
+                    break;
+                case 5:
+                    System.out.println("-- Atribuir chamado --");
+                    System.out.print("Indice do chamado (ID): ");
+                    int idEscolhido = Integer.parseInt(sc.nextLine());
+                    Chamado escolhido = null;
+                    for (Chamado c : chamados) {
+                        if (c.getId() == idEscolhido) {
+                            escolhido = c;
+                            break;
+                        }
+                    }
+                    if (escolhido == null) {
+                        System.out.println("Chamado não encontrado.");
+                        break;
+                    }
+                    System.out.print("Indice do admin (ex: 0): ");
+                    int idxA = Integer.parseInt(sc.nextLine());
+                    if (idxA < 0 || idxA >= analistaTIS.size()) {
+                        System.out.println("AnalistaTI inválido.");
+                    } else {
+                        analistaTIS.get(idxA).receberChamado(escolhido);
+                    }
+                    break;
+                case 6:
+                    System.out.println("-- Fechar chamado --");
+                    System.out.print("ID do chamado: ");
+                    int idFechar = Integer.parseInt(sc.nextLine());
+                    Chamado chFechar = null;
+                    for (Chamado c : chamados) {
+                        if (c.getId() == idFechar) {
+                            chFechar = c;
+                            break;
+                        }
+                    }
+                    if (chFechar != null) {
+                        chFechar.fechar();
+                        System.out.println("Chamado fechado.");
+                    } else {
+                        System.out.println("Chamado não encontrado.");
+                    }
+                    break;
+                case 7:
+                    System.out.print("Indice do admin (ex: 0): ");
+                    int idxAdm = Integer.parseInt(sc.nextLine());
+                    if (idxAdm < 0 || idxAdm >= analistaTIS.size()) {
+                        System.out.println("AnalistaTI inválido.");
+                    } else {
+                        analistaTIS.get(idxAdm).mostrarDados();
+                    }
+                    break;
+                case 0:
+                    System.out.println("Saindo...");
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+            }
         }
-        System.out.println();
 
-
-        // --- 3. Fluxo de Chamado (Cliente -> TI) ---
-        System.out.println("--- 3. Fluxo de Chamado (Cliente -> TI) ---");
-        
-        // Cliente cria um chamado
-        System.out.println(carlaCliente.getNome() + " está criando um chamado...");
-        carlaCliente.criarChamado("Meu computador não liga");
-        System.out.println();
-
-        // Recuperando o chamado criado
-        ArrayList<Chamado> chamadosDaCarla = carlaCliente.getListaChamados();
-        if (!chamadosDaCarla.isEmpty()) {
-            Chamado chamadoComputador = chamadosDaCarla.get(0); // Pega o primeiro chamado
-            
-            System.out.println("Status atual: " + chamadoComputador); // Mostra "Aberto"
-
-            // Analista de TI atende o chamado
-            System.out.println(alanTuring.getNome() + " vai atender o chamado...");
-            alanTuring.escolherChamado(chamadoComputador);
-            alanTuring.atenderChamado(chamadoComputador);
-            System.out.println("Status atual: " + chamadoComputador); // Mostra "Em atendimento"
-
-            // Analista de TI (como Funcionario) atualiza o status final
-            alanTuring.atualizarStatusChamado(chamadoComputador, "Resolvido");
-            System.out.println("Status final: " + chamadoComputador); // Mostra "Resolvido"
-        }
-        System.out.println();
-
-
-
-        // --- 4. Fluxo de RH ---
-        System.out.println("--- 4. Fluxo de RH ---");
-        
-        // Analista de RH cadastra um novo funcionário
-        robertaHumanos.cadastrarFuncionario("Novo Estagiário de TI");
-        
-        // Analista de RH atualiza o salário do Analista de TI
-        System.out.println("Salário antigo do " + alanTuring.getNome() + ": R$" + alanTuring.salarioBase);
-        robertaHumanos.atualizarSalario(alanTuring, 5500.00);
-        System.out.println("Salário novo do " + alanTuring.getNome() + ": R$" + alanTuring.salarioBase);
-        System.out.println();
-
-
-
-        // --- 5. Prints dos Métodos Abstratos ---
-        System.out.println("--- 5. Executar Tarefa ---");
-        
-        System.out.print(alanTuring.getNome() + " (AnalistaTI): ");
-        alanTuring.executarTarefa(); // Tarefa de TI
-
-        System.out.print(robertaHumanos.getNome() + " (AnalistaRH): ");
-        robertaHumanos.executarTarefa(); // Tarefa de RH
-        System.out.println();
-
-
-
-        // --- 6. Logout ---
-        System.out.println("--- 6. Logout ---");
-        carlaCliente.logout();
-        alanTuring.logout();
-        robertaHumanos.logout();
-
-        scanner.close();
+        sc.close();
     }
-
 }

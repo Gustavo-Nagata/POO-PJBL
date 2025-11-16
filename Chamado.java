@@ -1,30 +1,55 @@
 public class Chamado {
-    // Usado para gerar IDs únicos automaticamente
     private static int contador = 1;
-    // Outros atributos
     private int id;
     private String descricao;
-    private String status;
-    private Cliente cliente;
+    private Cliente solicitante;
+    private AnalistaTI responsavel; // pode ser null
+    private String status; // "Aberto", "Atribuido", "Fechado"
 
-    // Construtor: Inicializa um novo chamado.
-    public Chamado(String descricao, Cliente cliente) {
+    public Chamado(String descricao, Cliente solicitante) {
         this.id = contador++;
         this.descricao = descricao;
+        this.solicitante = solicitante;
+        this.responsavel = null;
         this.status = "Aberto";
-        this.cliente = cliente;
     }
 
-    // Permitem acesso e modificação controlados dos atributos.
-    public int getId() { return id; }
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public int getId() {
+        return id;
+    }
 
-    // Representação em string para facilitar a visualização do print de chamado
-    @Override
-    public String toString() {
-        return "Chamado #" + id + " - " + descricao + " (" + status + ")";
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Cliente getSolicitante() {
+        return solicitante;
+    }
+
+    public AnalistaTI getResponsavel() {
+        return responsavel;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void atribuir(AnalistaTI a) {
+        this.responsavel = a;
+        this.status = "Atribuido";
+    }
+
+    public void fechar() {
+        this.status = "Fechado";
+    }
+
+    public void mostrarResumo() {
+        System.out.println("ID: " + id + " | Status: " + status + " | Descrição: " + descricao);
+        System.out.println("Solicitante: " + solicitante.getNome() + " (Mat: " + solicitante.getMatricula() + ")");
+        if (responsavel != null) {
+            System.out.println("Responsável: " + responsavel.getNome());
+        } else {
+            System.out.println("Responsável: (não atribuído)");
+        }
     }
 }

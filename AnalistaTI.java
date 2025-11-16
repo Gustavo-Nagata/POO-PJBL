@@ -1,35 +1,31 @@
-public class AnalistaTI extends Funcionario {
+public class AnalistaTI extends Colaborador {
+    private float comissaoPorChamado;
+    private int quantChamados;
 
-    // Construtor: Chama o construtor da classe pai (Funcionario) e define o departamento como "TI".
-    public AnalistaTI(int id, String nome, String email, String senha, double salarioBase) {
-        super(id, nome, email, senha, salarioBase, "TI");
+    public AnalistaTI(String nome, String cpf, String rg, String telefone, int ramal, int matricula, float salario, float comissaoPorChamado) {
+        super(nome, cpf, rg, telefone, ramal, matricula, salario);
+        this.comissaoPorChamado = comissaoPorChamado;
+        this.quantChamados = 0;
     }
 
-    // Implementa o método abstrato 'executarTarefa()' de Funcionario.
+    // Recebe/assume um chamado e contabiliza
+    public void receberChamado(Chamado c) {
+        if (c != null) {
+            c.atribuir(this);
+            quantChamados++;
+            System.out.println("Chamado ID " + c.getId() + " atribuído a " + nome);
+        }
+    }
+
+    public float calcularSalarioComComissao() {
+        return salario + (quantChamados * comissaoPorChamado);
+    }
+
     @Override
-    public void executarTarefa() {
-        System.out.println("Executando tarefas de suporte técnico...");
+    public void mostrarDados() {
+        super.mostrarDados();
+        System.out.println("Comissão por chamado: " + comissaoPorChamado);
+        System.out.println("Quantidade de chamados atendidos: " + quantChamados);
+        System.out.println("Salário com comissão: " + calcularSalarioComComissao());
     }
-
-    // Métodos específicos do Analista de TI.
-    public void atenderChamado(Chamado chamado) {
-        chamado.setStatus("Em atendimento");
-        System.out.println("Atendendo chamado: " + chamado.getDescricao());
-    }
-
-    public void retrabalharChamado(Chamado chamado) {
-        chamado.setStatus("Em retrabalho");
-        System.out.println("Chamado em retrabalho: " + chamado.getDescricao());
-    }
-
-    public void escolherChamado(Chamado chamado) {
-        System.out.println("Chamado selecionado: " + chamado.getDescricao());
-    }
-
-    public void atualizarStatusChamado(Chamado chamado, String novoStatus) {
-        chamado.setStatus(novoStatus);
-        System.out.println("Chamado #" + chamado.getId() + " atualizado para '" + novoStatus + "' por " + nome);
-    }
-
- 
 }
