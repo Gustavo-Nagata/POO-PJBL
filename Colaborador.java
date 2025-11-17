@@ -1,3 +1,4 @@
+
 public abstract class Colaborador extends Pessoa {
     protected int ramal;
     protected int matricula;
@@ -14,11 +15,12 @@ public abstract class Colaborador extends Pessoa {
 
     public int getMatricula() { return matricula; }
 
-    public float getSalario() {
-        return salario;
-    }
+    // Este é o método abstrato que adicionámos (Etapa 1A)
+    // Substituiu o antigo getSalario()
+    public abstract float calcularSalario();
 
 
+    @Override // É boa prática, pois sobrescreve o método da classe Pessoa
     public void mostrarDados() {
         super.mostrarDados();
         System.out.println("Ramal: " + ramal);

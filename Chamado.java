@@ -34,14 +34,29 @@ public class Chamado {
         return status;
     }
 
-    public void atribuir(AnalistaTI a) {
+    // --- MUDANÇA DA ETAPA 2B ---
+    // Adicionamos "throws ChamadoException" à assinatura
+    public void atribuir(AnalistaTI a) throws ChamadoException {
+        // Se o status NÃO for "Aberto", lança um erro
+        if (!this.status.equals("Aberto")) {
+            throw new ChamadoException("Não é possível atribuir um chamado que não está 'Aberto'. Status atual: " + this.status);
+        }
+
         this.responsavel = a;
         this.status = "Atribuido";
     }
 
-    public void fechar() {
+    // Adicionamos "throws ChamadoException" à assinatura
+    public void fechar() throws ChamadoException {
+        // Se o status JÁ FOR "Fechado", lança um erro
+        if (this.status.equals("Fechado")) {
+            throw new ChamadoException("Este chamado já está 'Fechado'.");
+        }
+
         this.status = "Fechado";
     }
+    // --- FIM DAS MUDANÇAS ---
+
 
     public void mostrarResumo() {
         System.out.println("ID: " + id + " | Status: " + status + " | Descrição: " + descricao);

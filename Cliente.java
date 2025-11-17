@@ -16,4 +16,8 @@ public class Cliente extends Colaborador {
         listaChamados.add(c);
         System.out.println("Chamado criado com ID " + c.getId());
     }
+    @Override
+    public float calcularSalario() {
+        return this.salario;
+    }
 }

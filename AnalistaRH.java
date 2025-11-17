@@ -16,5 +16,9 @@ public class AnalistaRH extends Colaborador{
         System.out.println("Funcionário " + nomeCliente + " cadastrado com sucesso!");
     }
 
-
+    @Override
+    public float calcularSalario() {
+        // O salário do RH é apenas o base
+        return this.salario;
+    }
 }
