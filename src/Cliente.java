@@ -20,4 +20,8 @@ public class Cliente extends Colaborador {
     public float calcularSalario() {
         return this.salario;
     }
+    @Override
+    public String toString() {
+        return this.getNome(); // Assim o ComboBox mostra "Gustavo" em vez de "Cliente@34a2..."
+    }
 }

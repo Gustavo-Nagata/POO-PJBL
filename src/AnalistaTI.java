@@ -37,4 +37,8 @@ public class AnalistaTI extends Colaborador {
         System.out.println("Quantidade de chamados atendidos: " + quantChamados);
         System.out.println("Salário total (com comissão): " + calcularSalario());
     }
+    @Override
+    public String toString() {
+        return this.getNome(); // Assim o ComboBox mostra "Gustavo" em vez de "Cliente@34a2..."
+    }
 }
