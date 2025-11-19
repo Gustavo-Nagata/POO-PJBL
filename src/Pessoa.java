@@ -30,7 +30,7 @@ public abstract class Pessoa {
     public void mostrarDados() {
         System.out.println("Nome: " + nome);
         System.out.println("CPF: " + cpf);
-        System.out.println("CPF: " + rg);
+        System.out.println("Rg: " + rg);
         System.out.println("Telefone: " + telefone);
     }
 }
